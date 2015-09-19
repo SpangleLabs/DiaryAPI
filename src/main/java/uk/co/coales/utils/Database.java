@@ -8,6 +8,10 @@ import java.sql.SQLException;
 
 public class Database {
 	private Connection mConn = null;
+	
+	Database () {
+		this.connect();
+	}
 
 	public void connect() {
 		String dbHost = "localhost";
