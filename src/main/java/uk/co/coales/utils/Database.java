@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class Database {
 	private Connection mConn = null;
 	
-	Database () {
+	public Database() {
 		this.connect();
 	}
 
