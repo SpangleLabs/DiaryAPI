@@ -1,6 +1,7 @@
 package uk.co.coales.data;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Login {
 	private String mUsername = null;
