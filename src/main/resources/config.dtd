@@ -1,7 +1,8 @@
 <!ELEMENT config (database,key_directory)>
-<!ELEMENT database (host,name,username,password)>
+<!ELEMENT database (host,portname,username,password)>
 <!ELEMENT key_directory (#PCDATA)>
 <!ELEMENT host (#PCDATA)>
+<!ELEMENT port (#PCDATA)>
 <!ELEMENT name (#PCDATA)>
 <!ELEMENT username (#PCDATA)>
 <!ELEMENT password (#PCDATA)>
