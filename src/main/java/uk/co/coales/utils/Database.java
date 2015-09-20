@@ -50,7 +50,7 @@ public class Database {
 	 * @return
 	 */
 	public ResultSet addUniqueSalt(String salt) {
-		String query = "INSERT INTO `unique_salts` (`salt`) VALUES (?)";
+		String query = "INSERT INTO unique_salts (salt) VALUES (?)";
 		ResultSet results = null;
 		try {
 			PreparedStatement statement = this.mConn.prepareStatement(query);
