@@ -9,7 +9,6 @@ import javax.ws.rs.core.Response;
 public class EntriesService {
 
 	@GET
-	@Path("/")
 	public Response listEntries() {
  
 		String output = "List of entries";
