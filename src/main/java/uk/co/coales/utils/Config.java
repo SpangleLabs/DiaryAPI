@@ -9,12 +9,20 @@ import java.util.Map;
 import org.yaml.snakeyaml.Yaml;
 
 public class Config {
+
 	private String mDbHost = null;
 	private Integer mDbPort = null;
 	private String mDbName = null;
 	private String mDbUsername = null;
 	private String mDbPassword = null;
 	private String mKeyDirectory = null;
+
+	/**
+	 * Constructor just loads all variables from config file.
+	 */
+	public Config() {
+		this.loadFromYaml();
+	}
 	
 	/**
 	 * Loads configuration information from the yaml config file.
