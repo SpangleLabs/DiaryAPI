@@ -8,17 +8,14 @@ import java.sql.SQLException;
 
 public class Database {
 	private Connection mConn = null;
+	private Config mConf = null;
 	
 	public Database() {
+		this.mConf = new Config();
 		this.connect();
 	}
 
 	public void connect() {
-		String dbHost = "localhost";
-		Integer dbPort = 5432;
-		String dbName = "DiaryAPI";
-		String dbUsername = "postgres";
-		String dbPassword = "postgres";
 		try {
 			Class.forName("org.postgresql.Driver");
 		} catch (ClassNotFoundException e) {
@@ -27,7 +24,7 @@ public class Database {
 			return;
 		}
 		try {
-			this.mConn = DriverManager.getConnection("jdbc:postgresql://"+dbHost+":"+dbPort.toString()+"/"+dbName,dbUsername,dbPassword);
+			this.mConn = DriverManager.getConnection("jdbc:postgresql://"+this.mConf.getDbHost()+":"+this.mConf.getDbPort().toString()+"/"+this.mConf.getDbName(),this.mConf.getDbUsername(),this.mConf.getDbPassword());
 		} catch (Exception e) {
 			System.out.println("Failed to connect to database.");
 			e.printStackTrace();
