@@ -3,7 +3,6 @@ package uk.co.coales.utils;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Database {
@@ -51,7 +50,7 @@ public class Database {
 		try {
 			PreparedStatement statement = this.mConn.prepareStatement(query);
 			statement.setString(1,salt);
-			statement.executeQuery();
+			statement.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("DB ERROR: Add unique salt failed.");
 			e.printStackTrace();
