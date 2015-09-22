@@ -4,25 +4,7 @@
 
 -- Dumped from database version 9.1.18
 -- Dumped by pg_dump version 9.1.18
--- Started on 2015-09-19 00:30:51
-
-SET statement_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SET check_function_bodies = false;
-SET client_min_messages = warning;
-
---
--- TOC entry 1895 (class 1262 OID 16393)
--- Name: DiaryAPI; Type: DATABASE; Schema: -; Owner: postgres
---
-
-CREATE DATABASE "DiaryAPI" WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'English_United Kingdom.1252' LC_CTYPE = 'English_United Kingdom.1252';
-
-
-ALTER DATABASE "DiaryAPI" OWNER TO postgres;
-
-\connect "DiaryAPI"
+-- Started on 2015-09-22 22:30:52
 
 SET statement_timeout = 0;
 SET client_encoding = 'UTF8';
@@ -105,7 +87,9 @@ CREATE TABLE logins (
     username text NOT NULL,
     email text NOT NULL,
     pass_hash bit(256) NOT NULL,
-    pass_salt bit(256) NOT NULL
+    pass_salt bit(256) NOT NULL,
+    failed_logins integer,
+    lockout_time timestamp with time zone
 );
 
 
@@ -356,7 +340,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2015-09-19 00:30:51
+-- Completed on 2015-09-22 22:30:52
 
 --
 -- PostgreSQL database dump complete
