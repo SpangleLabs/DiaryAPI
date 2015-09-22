@@ -1,5 +1,10 @@
 package uk.co.coales.diary;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.SecureRandom;
 import java.util.Random;
 
@@ -8,8 +13,11 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.io.IOUtils;
 
+import uk.co.coales.utils.Config;
 import uk.co.coales.utils.Database;
 
 @Path("/login")
@@ -42,6 +50,32 @@ public class LoginService {
 		return hexSalt;
 	}
 	
+	private String getPrivateKey() {
+		//Load configuration
+		Config conf = new Config();
+		String keyDir = conf.getKeyDirectory();
+		//Load file
+		byte[] keyBytes = null;
+		try {
+			keyBytes = IOUtils.toByteArray(new FileInputStream(new File(keyDir+"/public_key.der")));
+		} catch (FileNotFoundException e) {
+			System.out.println("ERROR: PUBLIC KEY FILE NOT FOUND.");
+			e.printStackTrace();
+			return null;
+		} catch (IOException e) {
+			System.out.println("ERROR: FAILED TO READ PUBLIC KEY.");
+			e.printStackTrace();
+			return null;
+		}
+		//Base 64 encode it
+		byte[] keyEnc = Base64.encodeBase64(keyBytes);
+		//Output
+		return new String(keyEnc);
+	}
+	/**
+	 * 
+	 * @return
+	 */
 	@GET
 	@Path("/token")
 	public Response loginToken() {
