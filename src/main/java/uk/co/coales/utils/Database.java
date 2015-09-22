@@ -46,17 +46,16 @@ public class Database {
 	 * @param salt
 	 * @return
 	 */
-	public ResultSet addUniqueSalt(String salt) {
+	public void addUniqueSalt(String salt) {
 		String query = "INSERT INTO unique_salts (salt) VALUES (?)";
 		ResultSet results = null;
 		try {
 			PreparedStatement statement = this.mConn.prepareStatement(query);
 			statement.setString(1,salt);
-			results = statement.executeQuery();
+			statement.executeQuery();
 		} catch (SQLException e) {
 			System.out.println("DB ERROR: Add unique salt failed.");
 			e.printStackTrace();
 		}
-		return results;
 	}
 }
