@@ -43,7 +43,7 @@ public class LoginService {
 			outputJson.put("salt",hexSalt);
 			outputJson.put("pub_key",privKey);
 		} catch (JSONException e) {
-			System.out.println("ERROR: login salt failed to construct JSON object");
+			System.out.println("ERROR: login salt failed to construct JSON object.");
 			e.printStackTrace();
 			return Response.status(500).entity("FAILED TO CONSTRUCT JSON").build();
 		}
@@ -102,8 +102,33 @@ public class LoginService {
 	@Path("/token")
 	@Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-	public Response loginToken(LoginRequest loginRequest) {
+	public Response loginToken(JSONObject loginRequest) {
+		String username = null;
+		String password = null;
+		try {
+			username = loginRequest.getString("username");
+			password = loginRequest.getString("password");
+		} catch (JSONException e) {
+			System.out.println("ERROR: login token failed to read JSON object.");
+			e.printStackTrace();
+			return Response.status(500).entity("FAILED TO READ JSON").build();
+		}
+		//Check username and password are set
+		if(username == null || password == null) {
+			return Response.status(400).entity("INVALID LOGIN DATA.").build();
+		}
+		//Decrypt password
+		//Check salt is valid
+		//Get user data from database
+		//Hash password
+		//Check password is correct
+		//If incorrect, return authentication failure
+		//Otherwise, generate token
+		//Save token in database
+		//Return token
 		String output = "Login session token";
 		return Response.status(200).entity(output).build();
 	}
+	
+	
 }
