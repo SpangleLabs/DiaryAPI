@@ -40,9 +40,9 @@ public class Config {
 		}
 		Yaml yaml = new Yaml();
 		Map<String,Object> data = (Map<String,Object>) yaml.load(input);
-		Map<String,String> databaseData = (Map<String,String>) data.get("database");
+		Map<String,Object> databaseData = (Map<String,String>) data.get("database");
 		this.mDbHost = (String) databaseData.get("host");
-		this.mDbPort = Integer.parseInt(databaseData.get("port"));
+		this.mDbPort = (Integer) databaseData.get("port");
 		this.mDbName = (String) databaseData.get("name");
 		this.mDbUsername = (String) databaseData.get("username");
 		this.mDbPassword = (String) databaseData.get("password");
