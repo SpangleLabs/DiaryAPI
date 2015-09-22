@@ -115,7 +115,7 @@ public class LoginService {
 		}
 		//Check username and password are set
 		if(username == null || password == null) {
-			return Response.status(400).entity("INVALID LOGIN DATA.").build();
+			return Response.status(400).entity("INVALID DATA FOR TOKEN.").build();
 		}
 		//Decrypt password
 		//Check salt is valid
