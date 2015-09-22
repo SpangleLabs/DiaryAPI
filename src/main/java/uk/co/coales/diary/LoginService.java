@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.Random;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -21,6 +22,7 @@ import org.codehaus.jettison.json.JSONObject;
 
 import uk.co.coales.utils.Config;
 import uk.co.coales.utils.Database;
+import uk.co.coales.data.LoginRequest;
 
 @Path("/login")
 public class LoginService {
@@ -97,7 +99,9 @@ public class LoginService {
 	 */
 	@GET
 	@Path("/token")
-	public Response loginToken() {
+	@Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+	public Response loginToken(LoginRequest loginRequest) {
 		String output = "Login session token";
 		return Response.status(200).entity(output).build();
 	}
