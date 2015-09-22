@@ -95,7 +95,7 @@ public class LoginService {
 	}
 	
 	/**
-	 * 
+	 * login/token resource, when supplied with username and password, it will respond with a session token
 	 * @return
 	 */
 	@POST
@@ -120,13 +120,17 @@ public class LoginService {
 		//Decrypt password
 		//Check salt is valid
 		//Get user data from database
+		//Check if account is locked out
 		//Hash password
 		//Check password is correct
 		//If incorrect, return authentication failure
 		//Otherwise, generate token
 		//Save token in database
 		//Return token
-		String output = "Login session token";
+		JSONObject output = new JSONObject();
+		output.put("username",username);
+		output.put("password",password);
+		output.put("token","tokentoken");
 		return Response.status(200).entity(output).build();
 	}
 	
