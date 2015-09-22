@@ -48,7 +48,6 @@ public class Database {
 	 */
 	public void addUniqueSalt(String salt) {
 		String query = "INSERT INTO unique_salts (salt) VALUES (?)";
-		ResultSet results = null;
 		try {
 			PreparedStatement statement = this.mConn.prepareStatement(query);
 			statement.setString(1,salt);
