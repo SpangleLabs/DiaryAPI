@@ -8,13 +8,16 @@ import java.security.SecureRandom;
 import java.util.Random;
 
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.io.IOUtils;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 
 import uk.co.coales.utils.Config;
 import uk.co.coales.utils.Database;
@@ -24,13 +27,24 @@ public class LoginService {
 
 	@GET
 	@Path("/salt")
+    @Produces(MediaType.APPLICATION_JSON)
 	public Response loginSalt() {
 		//Connect to database
 		Database db = new Database();
 		//Generate unique salt
 		String hexSalt = this.generateSalt(db);
-		String output = "Newsalt:"+hexSalt;
-		return Response.status(200).entity(output).build();
+		String privKey = this.getPrivateKey();
+		//String output = "Newsalt:"+hexSalt;
+		JSONObject outputJson = new JSONObject();
+		try {
+			outputJson.put("salt",hexSalt);
+			outputJson.put("pub_key",privKey);
+		} catch (JSONException e) {
+			System.out.println("ERROR: login salt failed to construct JSON object");
+			e.printStackTrace();
+			return Response.status(500).entity("FAILED TO CONSTRUCT JSON").build();
+		}
+		return Response.status(200).entity(outputJson).build();
 	}
 	
 	/**
