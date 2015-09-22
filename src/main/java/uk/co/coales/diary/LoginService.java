@@ -50,6 +50,11 @@ public class LoginService {
 		return hexSalt;
 	}
 	
+	/**
+	 * Loads private key from file, using configuration directory.
+	 * Base64 encodes key before output.
+	 * @return
+	 */
 	private String getPrivateKey() {
 		//Load configuration
 		Config conf = new Config();
@@ -72,6 +77,7 @@ public class LoginService {
 		//Output
 		return new String(keyEnc);
 	}
+	
 	/**
 	 * 
 	 * @return
