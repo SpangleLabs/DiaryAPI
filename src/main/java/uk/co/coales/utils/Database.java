@@ -3,6 +3,7 @@ package uk.co.coales.utils;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Database {
@@ -55,5 +56,27 @@ public class Database {
 			System.out.println("DB ERROR: Add unique salt failed.");
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Gets data on a login by a given username.
+	 * @param username
+	 * @return
+	 */
+	public ResultSet getLoginByUsername(String username) {
+		String query = "SELECT login_id, username, email, pass_hash, pass_salt, "+
+					   "  failed_logins, time_lockout "+
+					   " FROM logins "+
+					   " WHERE username = ?";
+		ResultSet results = null;
+		try {
+			PreparedStatement statement = this.mConn.prepareStatement(query);
+			statement.setString(1,username);
+			results = statement.executeQuery();
+		} catch (SQLException e) {
+			System.out.println("DB ERROR: Get login by username failed.");
+			e.printStackTrace();
+		}
+		return results;
 	}
 }
