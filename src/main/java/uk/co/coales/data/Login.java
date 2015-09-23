@@ -66,6 +66,30 @@ public class Login {
 	}
 
 	/**
+	 * Returns database ID for login.
+	 * @return the mLoginId
+	 */
+	public Integer getLoginId() {
+		return mLoginId;
+	}
+
+	/**
+	 * Returns username for login.
+	 * @return the mUsername
+	 */
+	public String getUsername() {
+		return mUsername;
+	}
+
+	/**
+	 * Returns email address for login.
+	 * @return the mEmail
+	 */
+	public String getEmail() {
+		return mEmail;
+	}
+
+	/**
 	 * Lists diary entries for the current login.
 	 * @return 
 	 */
