@@ -116,10 +116,10 @@ public class LoginService {
 		if(username == null || password == null) {
 			return Response.status(400).entity("INVALID DATA FOR TOKEN.").build();
 		}
-		//Decrypt password
-		//Check salt is valid
 		//Get user data from database
 		//Check if account is locked out
+		//Decrypt password
+		//Check salt is valid
 		//Hash password
 		//Check password is correct
 		//If incorrect, return authentication failure
