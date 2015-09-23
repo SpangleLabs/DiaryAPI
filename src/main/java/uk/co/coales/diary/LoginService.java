@@ -127,9 +127,15 @@ public class LoginService {
 		//Save token in database
 		//Return token
 		JSONObject output = new JSONObject();
-		output.put("username",username);
-		output.put("password",password);
-		output.put("token","tokentoken");
+		try {
+			output.put("username",username);
+			output.put("password",password);
+			output.put("token","tokentoken");
+		} catch (JSONException e) {
+			System.out.println("ERROR: login token failed to construct JSON object.");
+			e.printStackTrace();
+			return Response.status(500).entity("FAILED TO CONSTRUCT JSON").build();
+		}
 		return Response.status(200).entity(output).build();
 	}
 	
