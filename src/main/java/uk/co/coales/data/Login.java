@@ -2,6 +2,7 @@ package uk.co.coales.data;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -15,7 +16,7 @@ public class Login {
 	private byte[] mPassHash = null;
 	private byte[] mPassSalt = null;
 	private Integer mFailedLogins = null;
-	private Date mLockoutTime = null;
+	private Timestamp mLockoutTime = null;
 	
 	/**
 	 * Constructor, builds Login object from database class and the result of a query 
@@ -34,7 +35,7 @@ public class Login {
 		this.mPassHash = loginResult.getBytes("pass_hash");
 		this.mPassSalt = loginResult.getBytes("pass_salt");
 		this.mFailedLogins = loginResult.getInt("failed_logins");
-		this.mLockoutTime = loginResult.getDate("time_lockout");
+		this.mLockoutTime = loginResult.getTimestamp("time_lockout");
 	}
 
 	/**
@@ -88,6 +89,19 @@ public class Login {
 	public String getEmail() {
 		return mEmail;
 	}
+	
+	/**
+	 * Returns boolean representing whether this login is locked out.
+	 * @return
+	 */
+	public Boolean isLockedOut() {
+		Timestamp currentTime = new Timestamp(new Date().getTime());
+		if(currentTime.after(this.mLockoutTime)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 
 	/**
 	 * Lists diary entries for the current login.
@@ -112,7 +126,7 @@ public class Login {
 	 * @param entryText
 	 * @return
 	 */
-	public DiaryEntry addDiaryEntry(Date entryDate, String entryText) {
+	public DiaryEntry addDiaryEntry(Timestamp entryDate, String entryText) {
 		return null;
 	}
 }
