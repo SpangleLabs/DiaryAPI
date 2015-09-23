@@ -23,7 +23,6 @@ import org.codehaus.jettison.json.JSONObject;
 
 import uk.co.coales.utils.Config;
 import uk.co.coales.utils.Database;
-import uk.co.coales.data.LoginRequest;
 
 @Path("/login")
 public class LoginService {
