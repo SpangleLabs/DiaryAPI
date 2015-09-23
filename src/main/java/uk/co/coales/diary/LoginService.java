@@ -21,6 +21,7 @@ import org.apache.commons.io.IOUtils;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
+import uk.co.coales.data.Login;
 import uk.co.coales.utils.Config;
 import uk.co.coales.utils.Database;
 
@@ -117,6 +118,11 @@ public class LoginService {
 			return Response.status(400).entity("INVALID DATA FOR TOKEN.").build();
 		}
 		//Get user data from database
+		Database db = new Database();
+		Login newLogin = Login.fromUsername(db,username);
+		if(newLogin == null) {
+			return Response.status(404).entity("USERNAME NOT FOUND.").build();
+		}
 		//Check if account is locked out
 		//Decrypt password
 		//Check salt is valid
