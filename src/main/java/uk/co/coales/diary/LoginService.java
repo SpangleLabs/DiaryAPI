@@ -124,6 +124,9 @@ public class LoginService {
 			return Response.status(404).entity("USERNAME NOT FOUND.").build();
 		}
 		//Check if account is locked out
+		if(newLogin.isLockedOut()) {
+			return Response.status(403).build();
+		}
 		//Decrypt password
 		//Check salt is valid
 		//Hash password
