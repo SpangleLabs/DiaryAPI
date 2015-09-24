@@ -15,7 +15,6 @@ public class Config {
 	private String mDbName = null;
 	private String mDbUsername = null;
 	private String mDbPassword = null;
-	private String mKeyDirectory = null;
 
 	/**
 	 * Constructor just loads all variables from config file.
@@ -46,7 +45,6 @@ public class Config {
 		this.mDbName = (String) databaseData.get("name");
 		this.mDbUsername = (String) databaseData.get("username");
 		this.mDbPassword = (String) databaseData.get("password");
-		this.mKeyDirectory = (String) data.get("key_directory");
 	}
 
 	/**
@@ -82,13 +80,6 @@ public class Config {
 	 */
 	public String getDbPassword() {
 		return mDbPassword;
-	}
-
-	/**
-	 * @return the mKeyDirectory
-	 */
-	public String getKeyDirectory() {
-		return mKeyDirectory;
 	}
 
 }
