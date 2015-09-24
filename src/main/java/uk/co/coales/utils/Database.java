@@ -41,22 +41,6 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
-	/**
-	 * Adds a new unique salt to the database.
-	 * @param salt
-	 * @return
-	 */
-	public void addUniqueSalt(String salt) {
-		String query = "INSERT INTO unique_salts (salt) VALUES (?)";
-		try {
-			PreparedStatement statement = this.mConn.prepareStatement(query);
-			statement.setString(1,salt);
-			statement.executeUpdate();
-		} catch (SQLException e) {
-			System.out.println("DB ERROR: Add unique salt failed.");
-			e.printStackTrace();
-		}
-	}
 	
 	/**
 	 * Gets data on a login by a given username.
