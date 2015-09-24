@@ -5,4 +5,3 @@ database:
   password: postgres
   port: 5432
   username: postgres
-key_directory: /home/user/keys/diaryAPI
