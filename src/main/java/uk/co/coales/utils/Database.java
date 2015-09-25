@@ -43,6 +43,27 @@ public class Database {
 	}
 	
 	/**
+	 * Adds a new session token to the database.
+	 * @param token
+	 * @param loginId
+	 * @param ipAddr
+	 */
+	public void addSessionToken(String token, Integer loginId, String ipAddr) {
+		String query = "INSERT INTO session_tokens (token,login_id,ip_addr) "+
+					   " VALUES (?,?,?) ";
+		try {
+			PreparedStatement statement = this.mConn.prepareStatement(query);
+			statement.setString(1,token);
+			statement.setInt(2,loginId);
+			statement.setString(3,ipAddr);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("DB ERROR: Add session token failed.");
+			e.printStackTrace();
+		}
+	}
+	
+	/**
 	 * Gets data on a login by a given username.
 	 * @param username
 	 * @return
