@@ -1,5 +1,8 @@
 package uk.co.coales.data;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -101,6 +104,29 @@ public class Login {
 		} else {
 			return true;
 		}
+	}
+	
+	public Boolean checkPassword(String password) {
+		//Salt password
+		String saltedPass = this.mPassSalt.toString() + password;
+		//Hash password
+		MessageDigest md;
+		try {
+			md = MessageDigest.getInstance("SHA-256");
+			md.update(saltedPass.getBytes("UTF-8"));
+		} catch (NoSuchAlgorithmException e) {
+			System.out.println("ERROR: CANNOT USE SHA-256 TO HASH PASSWORD.");
+			return false;
+		} catch (UnsupportedEncodingException e) {
+			System.out.println("ERROR: CANNOT ENCODE PASSWORD AS UTF-8.");
+			return false;
+		}
+		byte[] digest = md.digest();
+		//Check against existing hash
+		if(MessageDigest.isEqual(digest,this.mPassHash)) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
