@@ -7,11 +7,12 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.codec.binary.Hex;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -20,7 +21,7 @@ import uk.co.coales.utils.Database;
 
 @Path("/login")
 public class LoginService {
-	
+
 	/**
 	 * login/token resource, when supplied with username and password, it will respond with a session token
 	 * @return
@@ -29,7 +30,7 @@ public class LoginService {
 	@Path("/token")
 	@Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-	public Response loginToken(JSONObject loginRequest) {
+	public Response loginToken(JSONObject loginRequest, @Context HttpServletRequest request) {
 		String username = null;
 		String password = null;
 		try {
@@ -59,34 +60,20 @@ public class LoginService {
 			//If incorrect, return authentication failure
 			return Response.status(401).build();
 		}
-		//Otherwise, generate token
-		//Save token in database
+		//Otherwise, get token from login object
+		String ipAddr = request.getRemoteAddr();
+		String newToken = newLogin.getNewToken(ipAddr);
 		//Return token
 		JSONObject output = new JSONObject();
 		try {
 			output.put("username",username);
-			output.put("password",password);
-			output.put("token","tokentoken");
+			output.put("token",newToken);
 		} catch (JSONException e) {
 			System.out.println("ERROR: login token failed to construct JSON object.");
 			e.printStackTrace();
 			return Response.status(500).entity("FAILED TO CONSTRUCT JSON").build();
 		}
 		return Response.status(200).entity(output).build();
-	}
-	
-	/**
-	 * Generates a new random base64 session token.
-	 * @return
-	 */
-	private String generateToken() {
-		//Generate salt
-		Random r = new SecureRandom();
-		byte[] binaryToken = new byte[24];
-		r.nextBytes(binaryToken);
-		//Convert to hex
-		byte[] token = Base64.encodeBase64(binaryToken);
-		return token.toString();
 	}
 	
 }
