@@ -135,6 +135,7 @@ public class Login {
 		if(MessageDigest.isEqual(digest,this.mPassHash)) {
 			return true;
 		}
+		//TODO: increment failed login
 		return false;
 	}
 	
