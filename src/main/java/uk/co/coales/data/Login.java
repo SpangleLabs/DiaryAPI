@@ -106,6 +106,11 @@ public class Login {
 		}
 	}
 	
+	/**
+	 * Checks if a given password matches this Login's salt and hash pair.
+	 * @param password
+	 * @return
+	 */
 	public Boolean checkPassword(String password) {
 		//Salt password
 		String saltedPass = this.mPassSalt.toString() + password;
