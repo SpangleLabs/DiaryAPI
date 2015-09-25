@@ -3,11 +3,15 @@ package uk.co.coales.data;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
+
+import org.apache.commons.codec.binary.Base64;
 
 import uk.co.coales.utils.Database;
 
@@ -132,6 +136,31 @@ public class Login {
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * Generates a new random base64 session token.
+	 * @return
+	 */
+	private String generateToken() {
+		//Generate salt
+		Random r = new SecureRandom();
+		byte[] binaryToken = new byte[24];
+		r.nextBytes(binaryToken);
+		//Convert to hex
+		byte[] token = Base64.encodeBase64(binaryToken);
+		return token.toString();
+	}
+	
+	/**
+	 * Creates and stores a new session token for this login.
+	 * @param ipAddr
+	 * @return
+	 */
+	public String getNewToken(String ipAddr) {
+		String newToken = this.generateToken();
+		this.mDB.addSessionToken(newToken,this.mLoginId,ipAddr);
+		return newToken;
 	}
 
 	/**
