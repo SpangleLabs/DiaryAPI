@@ -47,11 +47,13 @@ public class LoginService {
 		}
 		//Check if account is locked out
 		if(newLogin.isLockedOut()) {
-			return Response.status(403).build();
+			return Response.status(401).build();
 		}
-		//Hash password
 		//Check password is correct
-		//If incorrect, return authentication failure
+		if(!newLogin.checkPassword(password)) {
+			//If incorrect, return authentication failure
+			return Response.status(401).build();
+		}
 		//Otherwise, generate token
 		//Save token in database
 		//Return token
