@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
 public class Database {
 	private Connection mConn = null;
@@ -101,9 +102,12 @@ public class Database {
 					       " SET time_lockout = ?, failed_logins = 0"+
 					       " WHERE failed_logins >= 3";
 		try {
-			PreparedStatement statement = this.mConn.prepareStatement(query);
+			PreparedStatement statement = this.mConn.prepareStatement(queryLock);
 			//TODO: SET DATE
-			//statement.setDate(1,accountId);
+			long t = new java.util.Date().getTime();
+			long m = 60*60*1000;
+			Timestamp lockedUntil = new Timestamp(t+m);
+			statement.setTimestamp(1,lockedUntil);
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("DB ERROR: Locking account failed.");
