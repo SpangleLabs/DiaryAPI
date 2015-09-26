@@ -84,4 +84,30 @@ public class Database {
 		}
 		return results;
 	}
+	
+	public void updateLoginFailedLogins(Integer accountId) {
+		String query = "UPDATE logins "+
+					   " SET failed_logins = failed_logins + 1"+
+					   " WHERE login_id = ?";
+		try {
+			PreparedStatement statement = this.mConn.prepareStatement(query);
+			statement.setInt(1,accountId);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("DB ERROR: Add failed login failed.");
+			e.printStackTrace();
+		}
+		String queryLock = "UPDATE logins "+
+					       " SET time_lockout = ?, failed_logins = 0"+
+					       " WHERE failed_logins >= 3";
+		try {
+			PreparedStatement statement = this.mConn.prepareStatement(query);
+			//TODO: SET DATE
+			//statement.setDate(1,accountId);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("DB ERROR: Locking account failed.");
+			e.printStackTrace();
+		}
+	}
 }
