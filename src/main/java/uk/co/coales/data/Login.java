@@ -170,6 +170,7 @@ public class Login {
 	 * @return 
 	 */
 	public ArrayList<DiaryEntry> listDiaryEntries() {
+		//TODO: implement this
 		return null;
 	}
 
@@ -179,6 +180,7 @@ public class Login {
 	 * @return
 	 */
 	public DiaryEntry getDiaryEntryById(Integer diaryEntryId) {
+		//TODO: implement this
 		return null;
 	}
 	
@@ -189,6 +191,7 @@ public class Login {
 	 * @return
 	 */
 	public DiaryEntry addDiaryEntry(Timestamp entryDate, String entryText) {
+		//TODO: implement this
 		return null;
 	}
 }
