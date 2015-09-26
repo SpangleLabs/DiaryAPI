@@ -86,6 +86,10 @@ public class Database {
 		return results;
 	}
 	
+	/**
+	 * Adds 1 to the failed login count for an account, then locks out any accounts with too many failed logins.
+	 * @param accountId
+	 */
 	public void updateLoginFailedLogins(Integer accountId) {
 		String query = "UPDATE logins "+
 					   " SET failed_logins = failed_logins + 1"+
