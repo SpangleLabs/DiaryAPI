@@ -86,6 +86,22 @@ public class Database {
 		return results;
 	}
 	
+	public ResultSet listEntriesByLogin(Integer loginId) {
+		String query = "SELECT entry_id, entry_date, entry_text, login_id "+
+					   " FROM entries "+
+					   " WHERE login_id = ?";
+		ResultSet results = null;
+		try {
+			PreparedStatement statement = this.mConn.prepareStatement(query);
+			statement.setInt(1,loginId);
+			results = statement.executeQuery();
+		} catch (SQLException e) {
+			System.out.println("DB ERROR: List entries by login failed.");
+			e.printStackTrace();
+		}
+		return results;
+	}
+	
 	/**
 	 * Adds 1 to the failed login count for an account, then locks out any accounts with too many failed logins.
 	 * @param accountId
