@@ -135,7 +135,8 @@ public class Login {
 		if(MessageDigest.isEqual(digest,this.mPassHash)) {
 			return true;
 		}
-		//TODO: increment failed login
+		//Increment failed login
+		this.mDB.updateLoginFailedLogins(this.mLoginId);
 		return false;
 	}
 	
