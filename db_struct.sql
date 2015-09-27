@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.1.18
 -- Dumped by pg_dump version 9.1.18
--- Started on 2015-09-25 01:02:27
+-- Started on 2015-09-27 22:24:24
 
 SET statement_timeout = 0;
 SET client_encoding = 'UTF8';
@@ -43,7 +43,7 @@ SET default_with_oids = false;
 
 CREATE TABLE entries (
     entry_id integer NOT NULL,
-    entry_date date NOT NULL,
+    entry_date timestamp with time zone NOT NULL,
     entry_text text NOT NULL,
     login_id integer NOT NULL
 );
@@ -53,7 +53,7 @@ ALTER TABLE public.entries OWNER TO postgres;
 
 --
 -- TOC entry 161 (class 1259 OID 16394)
--- Dependencies: 5 162
+-- Dependencies: 162 5
 -- Name: entries_entry_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -140,7 +140,7 @@ ALTER TABLE public.session_tokens OWNER TO postgres;
 
 --
 -- TOC entry 165 (class 1259 OID 16418)
--- Dependencies: 5 166
+-- Dependencies: 166 5
 -- Name: session_tokens_session_token_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -165,7 +165,7 @@ ALTER SEQUENCE session_tokens_session_token_id_seq OWNED BY session_tokens.sessi
 
 --
 -- TOC entry 1762 (class 2604 OID 16399)
--- Dependencies: 161 162 162
+-- Dependencies: 162 161 162
 -- Name: entry_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -174,7 +174,7 @@ ALTER TABLE ONLY entries ALTER COLUMN entry_id SET DEFAULT nextval('entries_entr
 
 --
 -- TOC entry 1763 (class 2604 OID 16410)
--- Dependencies: 163 164 164
+-- Dependencies: 164 163 164
 -- Name: login_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -251,7 +251,7 @@ CREATE INDEX fki_entries_login_id_fkey ON entries USING btree (login_id);
 
 --
 -- TOC entry 1778 (class 2606 OID 16451)
--- Dependencies: 162 164 1770 1882
+-- Dependencies: 1770 164 162 1882
 -- Name: entries_login_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -261,7 +261,7 @@ ALTER TABLE ONLY entries
 
 --
 -- TOC entry 1779 (class 2606 OID 16431)
--- Dependencies: 166 164 1770 1882
+-- Dependencies: 1770 164 166 1882
 -- Name: session_tokens_login_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -281,7 +281,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2015-09-25 01:02:27
+-- Completed on 2015-09-27 22:24:25
 
 --
 -- PostgreSQL database dump complete
