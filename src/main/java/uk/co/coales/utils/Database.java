@@ -86,6 +86,11 @@ public class Database {
 		return results;
 	}
 	
+	/**
+	 * List diary entries for a given login.
+	 * @param loginId
+	 * @return
+	 */
 	public ResultSet listEntriesByLogin(Integer loginId) {
 		String query = "SELECT entry_id, entry_date, entry_text, login_id "+
 					   " FROM entries "+
