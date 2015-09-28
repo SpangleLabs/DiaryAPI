@@ -36,6 +36,10 @@ public class DiaryEntry {
 		return this.mDate;
 	}
 	
+	/**
+	 * Returns the date in ISO8601 format.
+	 * @return
+	 */
 	public String getDateString() {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(this.getDate());
