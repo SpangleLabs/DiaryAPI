@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 import uk.co.coales.utils.Database;
@@ -26,6 +27,14 @@ public class DiaryEntry {
 		this.mEntryId = entryResult.getInt("entry_id");
 		this.mDate = entryResult.getDate("entry_date");
 		this.mText = entryResult.getString("entry_text");
+	}
+	
+	/**
+	 * Entry ID getter
+	 * @return
+	 */
+	public Integer getEntryId() {
+		return this.mEntryId;
 	}
 
 	/**
@@ -57,9 +66,11 @@ public class DiaryEntry {
 		return this.mText;
 	}
 	
-	public JSONObject toJson() {
+	public JSONObject toJson() throws JSONException {
 		JSONObject jsonOutput = new JSONObject();
-		jsonOutput.put("date",value);
+		jsonOutput.put("id",this.getEntryId());
+		jsonOutput.put("date",this.getDateString());
+		jsonOutput.put("text",this.getText());
 		return jsonOutput;
 	}
 }
