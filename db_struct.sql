@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.1.18
 -- Dumped by pg_dump version 9.1.18
--- Started on 2015-09-27 22:24:24
+-- Started on 2015-09-28 21:52:39
 
 SET statement_timeout = 0;
 SET client_encoding = 'UTF8';
@@ -43,7 +43,7 @@ SET default_with_oids = false;
 
 CREATE TABLE entries (
     entry_id integer NOT NULL,
-    entry_date timestamp with time zone NOT NULL,
+    entry_date date NOT NULL,
     entry_text text NOT NULL,
     login_id integer NOT NULL
 );
@@ -281,7 +281,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2015-09-27 22:24:25
+-- Completed on 2015-09-28 21:52:39
 
 --
 -- PostgreSQL database dump complete
