@@ -47,10 +47,11 @@ public class Login {
 
 	/**
 	 * Creates a new login from a valid authentication token.
+	 * @param db
 	 * @param authToken
 	 * @return
 	 */
-	public static Login fromSessionToken(String authToken) {
+	public static Login fromSessionToken(Database db, String authToken) {
 		return null;
 	}
 	
