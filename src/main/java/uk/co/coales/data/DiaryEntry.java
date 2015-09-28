@@ -66,6 +66,11 @@ public class DiaryEntry {
 		return this.mText;
 	}
 	
+	/**
+	 * Output JSON object for this diary entry
+	 * @return
+	 * @throws JSONException
+	 */
 	public JSONObject toJson() throws JSONException {
 		JSONObject jsonOutput = new JSONObject();
 		jsonOutput.put("id",this.getEntryId());
