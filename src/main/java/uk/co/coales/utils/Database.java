@@ -67,6 +67,25 @@ public class Database {
 	}
 	
 	/**
+	 * Deletes session tokens which have expired.
+	 */
+	public void deleteSessionTokenByAge() {
+		String query = "DELETE FROM session_tokens WHERE time_used < ?";
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		cal.add(Calendar.HOUR,-1);
+		Timestamp earliestTimestamp = new Timestamp(cal.getTimeInMillis());
+		try {
+			PreparedStatement statement = this.mConn.prepareStatement(query);
+			statement.setTimestamp(1,earliestTimestamp);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("DB ERROR: Deleting old session tokens failed.");
+			e.printStackTrace();
+		}
+	}
+	
+	/**
 	 * Gets data on a login by a given username.
 	 * @param username
 	 * @return
