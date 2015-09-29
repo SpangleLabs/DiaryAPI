@@ -186,8 +186,20 @@ public class Login {
 	 * @return 
 	 */
 	public ArrayList<DiaryEntry> listDiaryEntries() {
-		//TODO: implement this
-		return null;
+		//Start output list
+		ArrayList<DiaryEntry> outputList = new ArrayList<DiaryEntry>();
+		//Get database results
+		ResultSet results = this.mDB.listEntriesByLogin(this.getLoginId());
+		//Loop results, creating entries
+		try {
+			while(results.next()) {
+				DiaryEntry newEntry = new DiaryEntry(this.mDB,results,this);
+				outputList.add(newEntry);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return outputList;
 	}
 
 	/**
