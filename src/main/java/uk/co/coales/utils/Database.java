@@ -190,13 +190,14 @@ public class Database {
 	 * Updates the time_used column for a specified authentication token in the database.
 	 * @param authToken
 	 */
-	public void updateSessionTokenTimeUsed(String authToken) {
+	public void updateSessionTokenTimeUsed(String authToken, String ipAddr) {
 		String query = "UPDATE session_tokens "+
 					   " SET time_used = now() "+
-					   " WHERE token = ?";
+					   " WHERE token = ? AND ip_addr = ?";
 		try {
 			PreparedStatement statement = this.mConn.prepareStatement(query);
 			statement.setString(1,authToken);
+			statement.setString(2,ipAddr);
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("DB ERROR: Updating session token time used failed.");
