@@ -25,11 +25,12 @@ public class EntriesService {
     @Produces(MediaType.APPLICATION_JSON)
 	public Response listEntries(@Context HttpServletRequest request) {
 		String authToken = request.getHeader("Authentication");
+		String ipAddr = request.getRemoteAddr();
 		if(authToken == null) {
 			return Response.status(401).build();
 		}
 		Database db = new Database();
-		Login newLogin = Login.fromSessionToken(db,authToken);
+		Login newLogin = Login.fromSessionToken(db,authToken,ipAddr);
 		if(newLogin == null) {
 			return Response.status(401).build();
 		}
