@@ -32,7 +32,7 @@ public class EntriesService {
 		Database db = new Database();
 		Login newLogin = Login.fromSessionToken(db,authToken,ipAddr);
 		if(newLogin == null) {
-			return Response.status(401).build();
+			return Response.status(401).entity("ACCESS DENIED").build();
 		}
 		ArrayList<DiaryEntry> listEntries = newLogin.listDiaryEntries();
 		JSONArray output = new JSONArray();

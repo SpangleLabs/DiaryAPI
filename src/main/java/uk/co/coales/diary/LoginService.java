@@ -49,12 +49,12 @@ public class LoginService {
 		}
 		//Check if account is locked out
 		if(newLogin.isLockedOut()) {
-			return Response.status(401).build();
+			return Response.status(401).entity("ACCESS DENIED").build();
 		}
 		//Check password is correct
 		if(!newLogin.checkPassword(password)) {
 			//If incorrect, return authentication failure
-			return Response.status(401).build();
+			return Response.status(401).entity("ACCESS DENIED").build();
 		}
 		//Otherwise, get token from login object
 		String ipAddr = request.getRemoteAddr();
