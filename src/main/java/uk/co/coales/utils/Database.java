@@ -173,16 +173,33 @@ public class Database {
 		String queryLock = "UPDATE logins "+
 					       " SET time_lockout = ?, failed_logins = 0"+
 					       " WHERE failed_logins >= 3";
+		long t = new java.util.Date().getTime();
+		long m = 60*60*1000;
+		Timestamp lockedUntil = new Timestamp(t+m);
 		try {
 			PreparedStatement statement = this.mConn.prepareStatement(queryLock);
-			//TODO: SET DATE
-			long t = new java.util.Date().getTime();
-			long m = 60*60*1000;
-			Timestamp lockedUntil = new Timestamp(t+m);
 			statement.setTimestamp(1,lockedUntil);
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("DB ERROR: Locking account failed.");
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Updates the time_used column for a specified authentication token in the database.
+	 * @param authToken
+	 */
+	public void updateSessionTokenTimeUsed(String authToken) {
+		String query = "UPDATE session_tokens "+
+					   " SET time_used = now() "+
+					   " WHERE token = ?";
+		try {
+			PreparedStatement statement = this.mConn.prepareStatement(query);
+			statement.setString(1,authToken);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("DB ERROR: Updating session token time used failed.");
 			e.printStackTrace();
 		}
 	}
