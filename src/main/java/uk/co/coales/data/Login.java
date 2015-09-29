@@ -51,8 +51,23 @@ public class Login {
 	 * @param authToken
 	 * @return
 	 */
-	public static Login fromSessionToken(Database db, String authToken) {
-		return null;
+	public static Login fromSessionToken(Database db, String authToken, String ipAddr) {
+		//Clear out old session tokens
+		db.deleteSessionTokenByAge();
+		//Get login data from database
+		ResultSet loginData = db.getLoginByTokenAndIpAddr(authToken,ipAddr);
+		Login newLogin = null;
+		//Build new login object
+		try {
+			newLogin = new Login(db,loginData);
+		} catch (SQLException e) {
+			return null;
+		} catch (NullPointerException e) {
+			return null;
+		}
+		//Update time used on session token
+		db.updateSessionTokenTimeUsed(authToken,ipAddr);
+		return newLogin;
 	}
 	
 	/**
