@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Database {
 	private Connection mConn = null;
@@ -86,19 +88,24 @@ public class Database {
 		return results;
 	}
 	
-	public ResultSet getSessionTokenByTokenAndIpAddr(String token,String ipAddr) {
-		String query = "SELECT token, login_id, logins.username, logins.email, logins.pass_hash,"+
+	public ResultSet getLoginByTokenAndIpAddr(String token,String ipAddr) {
+		String query = "SELECT session_tokens.login_id, logins.username, logins.email, logins.pass_hash,"+
 					   "  logins.pass_salt, logins.failed_logins, logins.lockout_time "+
 					   " FROM session_tokens "+
 					   " LEFT JOIN logins ON session_tokens.login_id = logins.login_id "+
 					   " WHERE session_tokens.token = ? "+
 					   "  AND session_tokens.ip_addr = ? "+
 					   "  AND session_tokens.time_used > ? ";
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		cal.add(Calendar.HOUR,-1);
+		Timestamp earliestTimestamp = new Timestamp(cal.getTimeInMillis());
 		ResultSet results = null;
 		try {
 			PreparedStatement statement = this.mConn.prepareStatement(query);
 			statement.setString(1,token);
 			statement.setString(2,ipAddr);
+			statement.setTimestamp(3,earliestTimestamp);
 			results = statement.executeQuery();
 		} catch (SQLException e) {
 			System.out.println("DB ERROR: Get session token by token failed.");
