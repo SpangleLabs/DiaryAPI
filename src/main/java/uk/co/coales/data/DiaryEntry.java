@@ -55,8 +55,7 @@ public class DiaryEntry {
 		int year = cal.get(Calendar.YEAR);
 		int month = cal.get(Calendar.MONTH);
 		int day = cal.get(Calendar.DAY_OF_MONTH);
-		String output = Integer.toString(year)+"-"+Integer.toString(month)+"-"+Integer.toString(day);
-		return output;
+		return Integer.toString(year)+"-"+Integer.toString(month)+"-"+Integer.toString(day);
 	}
 	
 	/**
