@@ -119,11 +119,7 @@ public class Login {
 	 */
 	public Boolean isLockedOut() {
 		Timestamp currentTime = new Timestamp(new Date().getTime());
-		if(currentTime.after(this.mLockoutTime)) {
-			return false;
-		} else {
-			return true;
-		}
+		return !currentTime.after(this.mLockoutTime);
 	}
 	
 	/**
