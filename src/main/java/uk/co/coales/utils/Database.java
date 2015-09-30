@@ -47,9 +47,9 @@ public class Database {
 	
 	/**
 	 * Adds a new session token to the database.
-	 * @param token
-	 * @param loginId
-	 * @param ipAddr
+	 * @param token Session token to add
+	 * @param loginId ID of the login this session token is valid for
+	 * @param ipAddr IP address of the user of this token
 	 */
 	public void addSessionToken(String token, Integer loginId, String ipAddr) {
 		String query = "INSERT INTO session_tokens (token,login_id,ip_addr) "+
@@ -87,8 +87,8 @@ public class Database {
 	
 	/**
 	 * Gets data on a login by a given username.
-	 * @param username
-	 * @return
+	 * @param username Username of login being searched for
+	 * @return Returns a ResultSet containing Login data (or no login data)
 	 */
 	public ResultSet getLoginByUsername(String username) {
 		String query = "SELECT login_id, username, email, pass_hash, pass_salt, "+
@@ -135,8 +135,8 @@ public class Database {
 	
 	/**
 	 * List diary entries for a given login.
-	 * @param loginId
-	 * @return
+	 * @param loginId ID of the login being searched for in the database
+	 * @return ResultSet containing data for a login, or no data
 	 */
 	public ResultSet listEntriesByLogin(Integer loginId) {
 		String query = "SELECT entry_id, entry_date, entry_text, login_id "+
@@ -156,7 +156,7 @@ public class Database {
 	
 	/**
 	 * Adds 1 to the failed login count for an account, then locks out any accounts with too many failed logins.
-	 * @param accountId
+	 * @param accountId ID of login who failed to login correctly
 	 */
 	public void updateLoginFailedLogins(Integer accountId) {
 		String query = "UPDATE logins "+
@@ -188,7 +188,8 @@ public class Database {
 	
 	/**
 	 * Updates the time_used column for a specified authentication token in the database.
-	 * @param authToken
+	 * @param authToken session token code which has been used
+	 * @param ipAddr IP address of user using session token
 	 */
 	public void updateSessionTokenTimeUsed(String authToken, String ipAddr) {
 		String query = "UPDATE session_tokens "+
