@@ -129,7 +129,7 @@ public class Login {
 	 */
 	public Boolean checkPassword(String password) {
 		//Salt password
-		String saltedPass = this.mPassSalt.toString() + password;
+		String saltedPass = new String(this.mPassSalt) + password;
 		//Hash password
 		MessageDigest md;
 		try {
@@ -163,7 +163,7 @@ public class Login {
 		r.nextBytes(binaryToken);
 		//Convert to hex
 		byte[] token = Base64.encodeBase64(binaryToken);
-		return token.toString();
+		return new String(token);
 	}
 	
 	/**
