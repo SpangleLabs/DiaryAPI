@@ -27,8 +27,8 @@ public class Login {
 	
 	/**
 	 * Constructor, builds Login object from database class and the result of a query 
-	 * @param db
-	 * @param loginResult
+	 * @param db Database object
+	 * @param loginResult Result of a query pulling from logins table of database
 	 * @throws SQLException 
 	 */
 	Login(Database db, ResultSet loginResult) throws SQLException {
@@ -47,16 +47,17 @@ public class Login {
 
 	/**
 	 * Creates a new login from a valid authentication token.
-	 * @param db
-	 * @param authToken
-	 * @return
+	 * @param db Database object
+	 * @param authToken Authorization code provided by a user
+	 * @param ipAddr IP address of user
+	 * @return Returns new Login object for this auth token, or null.
 	 */
 	public static Login fromSessionToken(Database db, String authToken, String ipAddr) {
 		//Clear out old session tokens
 		db.deleteSessionTokenByAge();
 		//Get login data from database
 		ResultSet loginData = db.getLoginByTokenAndIpAddr(authToken,ipAddr);
-		Login newLogin = null;
+		Login newLogin;
 		//Build new login object
 		try {
 			newLogin = new Login(db,loginData);
@@ -72,13 +73,13 @@ public class Login {
 	
 	/**
 	 * Creates a new login from a valid username.
-	 * @param db
-	 * @param username
-	 * @return
+	 * @param db Database object
+	 * @param username Username of Login object
+	 * @return Returns the Login object with corresponding username
 	 */
 	public static Login fromUsername(Database db, String username) {
 		ResultSet loginData = db.getLoginByUsername(username);
-		Login newLogin = null;
+		Login newLogin;
 		try {
 			newLogin = new Login(db,loginData);
 		} catch (SQLException e) {
@@ -115,7 +116,7 @@ public class Login {
 	
 	/**
 	 * Returns boolean representing whether this login is locked out.
-	 * @return
+	 * @return Returns boolean representing whether login is locked out.
 	 */
 	public Boolean isLockedOut() {
 		Timestamp currentTime = new Timestamp(new Date().getTime());
@@ -124,8 +125,8 @@ public class Login {
 	
 	/**
 	 * Checks if a given password matches this Login's salt and hash pair.
-	 * @param password
-	 * @return
+	 * @param password Password which user has supplied for this account
+	 * @return Boolean, whether or not this password is correct
 	 */
 	public Boolean checkPassword(String password) {
 		//Salt password
@@ -154,7 +155,7 @@ public class Login {
 	
 	/**
 	 * Generates a new random base64 session token.
-	 * @return
+	 * @return New random session token
 	 */
 	private String generateToken() {
 		//Generate salt
@@ -168,8 +169,8 @@ public class Login {
 	
 	/**
 	 * Creates and stores a new session token for this login.
-	 * @param ipAddr
-	 * @return
+	 * @param ipAddr IP address of user requesting a new token
+	 * @return New random session token which has been saved to database
 	 */
 	public String getNewToken(String ipAddr) {
 		String newToken = this.generateToken();
@@ -179,11 +180,11 @@ public class Login {
 
 	/**
 	 * Lists diary entries for the current login.
-	 * @return 
+	 * @return List of DiaryEntry objects created by this Login
 	 */
 	public ArrayList<DiaryEntry> listDiaryEntries() {
 		//Start output list
-		ArrayList<DiaryEntry> outputList = new ArrayList<DiaryEntry>();
+		ArrayList<DiaryEntry> outputList = new ArrayList<>();
 		//Get database results
 		ResultSet results = this.mDB.listEntriesByLogin(this.getLoginId());
 		//Loop results, creating entries
@@ -200,8 +201,8 @@ public class Login {
 
 	/**
 	 * Gets a diary entry by entry id for current login.
-	 * @param diaryEntryId
-	 * @return
+	 * @param diaryEntryId ID of diary entry which user is requesting
+	 * @return DiaryEntry with ID equal to user input
 	 */
 	public DiaryEntry getDiaryEntryById(Integer diaryEntryId) {
 		//TODO: implement this
@@ -210,9 +211,9 @@ public class Login {
 	
 	/**
 	 * Add a new diary entry
-	 * @param entryDate
-	 * @param entryText
-	 * @return
+	 * @param entryDate Date of diary entry to add
+	 * @param entryText Text of diary entry to add
+	 * @return The new diary entry which was created
 	 */
 	public DiaryEntry addDiaryEntry(Timestamp entryDate, String entryText) {
 		//TODO: implement this
