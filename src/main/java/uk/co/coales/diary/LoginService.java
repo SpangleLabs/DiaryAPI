@@ -20,15 +20,15 @@ public class LoginService {
 
 	/**
 	 * login/token resource, when supplied with username and password, it will respond with a session token
-	 * @return
+	 * @return Response object for this resource request
 	 */
 	@POST
 	@Path("/token")
 	@Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
 	public Response loginToken(JSONObject loginRequest, @Context HttpServletRequest request) {
-		String username = null;
-		String password = null;
+		String username;
+		String password;
 		try {
 			username = loginRequest.getString("username");
 			password = loginRequest.getString("password");
