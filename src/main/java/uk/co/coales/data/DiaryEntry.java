@@ -30,7 +30,7 @@ public class DiaryEntry {
 	
 	/**
 	 * Entry ID getter
-	 * @return
+	 * @return ID of diary entry
 	 */
 	public Integer getEntryId() {
 		return this.mEntryId;
@@ -38,7 +38,7 @@ public class DiaryEntry {
 
 	/**
 	 * Date getter
-	 * @return
+	 * @return Date diary entry was filed for
 	 */
 	public Date getDate() {
 		return this.mDate;
@@ -46,7 +46,7 @@ public class DiaryEntry {
 	
 	/**
 	 * Returns the date in ISO8601 format.
-	 * @return
+	 * @return String representing the date the diary entry was filed for, in ISO8601 format
 	 */
 	public String getDateString() {
 		Calendar cal = Calendar.getInstance();
@@ -66,7 +66,7 @@ public class DiaryEntry {
 	
 	/**
 	 * Output JSON object for this diary entry
-	 * @return
+	 * @return JSONObject which represents this diary entry
 	 * @throws JSONException
 	 */
 	public JSONObject toJson() throws JSONException {
