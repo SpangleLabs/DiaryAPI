@@ -5,10 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -127,5 +124,24 @@ public class EntriesService {
             return Response.status(500).entity("FAILED TO CONSTRUCT JSON").build();
         }
         return Response.status(200).entity(outputJson).build();
+    }
+
+	@POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response newEntry(JSONObject newEntry) {
+        //Check auth token and get current login
+        String authToken = this.request.getHeader("Authentication");
+        String ipAddr = this.request.getRemoteAddr();
+        if(authToken == null) {
+            return Response.status(401).entity("ACCESS DENIED").build();
+        }
+        Database db = new Database();
+        Login newLogin = Login.fromSessionToken(db,authToken,ipAddr);
+        if(newLogin == null) {
+            return Response.status(401).entity("ACCESS DENIED").build();
+        }
+        //Check for entry with current date
+        Date date = new Date();
+        return null;
     }
 }
