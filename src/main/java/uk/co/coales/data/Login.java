@@ -243,10 +243,24 @@ public class Login {
 	 * Add a new diary entry
 	 * @param entryDate Date of diary entry to add
 	 * @param entryText Text of diary entry to add
-	 * @return The new diary entry which was created
+	 * @return The new diary entry which was created, or null.
 	 */
-	public DiaryEntry addDiaryEntry(Timestamp entryDate, String entryText) {
-		//TODO: implement this
+	public DiaryEntry addDiaryEntry(Date entryDate, String entryText) {
+		//Add entry in database
+		ResultSet results = this.mDB.addEntry(this.getLoginId(),entryDate,entryText);
+		//Check results
+		if(results == null) {
+			return null;
+		}
+		try {
+			if(results.next()) {
+                //Create new diaryEntry
+				Integer entryId = results.getInt("entry_id");
+				return this.getDiaryEntryById(entryId);
+            }
+		} catch (SQLException e) {
+			return null;
+		}
 		return null;
 	}
 }
