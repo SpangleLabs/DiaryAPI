@@ -102,10 +102,15 @@ public class EntriesService {
         }
         //Attempt to create Date
         Calendar cal = Calendar.getInstance();
+		cal.setLenient(false);
         cal.clear();
-        cal.set(Calendar.DAY_OF_MONTH,entryDay);
-        cal.set(Calendar.MONTH,entryMonth-1);
-        cal.set(Calendar.YEAR,entryYear);
+		try {
+            cal.set(Calendar.YEAR,entryYear);
+            cal.set(Calendar.MONTH,entryMonth-1);
+            cal.set(Calendar.DAY_OF_MONTH,entryDay);
+		} catch (Exception e) {
+			return Response.status(400).entity("INVALID DATE").build();
+		}
         Date date = cal.getTime();
         //Get specified diary entry
         DiaryEntry diaryEntry = newLogin.getDiaryEntryByDate(date);
