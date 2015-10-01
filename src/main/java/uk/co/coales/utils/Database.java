@@ -84,7 +84,29 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
-	
+
+    /**
+     * Gets data on an entry by entry id and login id
+     * @param entryId ID of the entry which is being requested
+     * @param loginId ID of the login who created the desired entry
+     * @return Returns a ResultSet of entry data, or potentially no login data.
+     */
+	public ResultSet getEntriesByIdAndLoginId(Integer entryId, Integer loginId)  {
+		String query = "SELECT entry_id, entry_date, entry_text, login_id "+
+					   " FROM entries "+
+					   " WHERE entry_id = ? AND login_id = ?";
+		ResultSet results = null;
+		try {
+			PreparedStatement statement = this.mConn.prepareStatement(query);
+			statement.setInt(1,entryId);
+			statement.setInt(2,loginId);
+			results = statement.executeQuery();
+		} catch (SQLException e) {
+			System.out.println("DB ERROR: Get entries by id and login failed.");
+		}
+		return results;
+	}
+
 	/**
 	 * Gets data on a login by a given username.
 	 * @param username Username of login being searched for
