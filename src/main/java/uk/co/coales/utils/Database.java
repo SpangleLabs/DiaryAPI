@@ -86,6 +86,29 @@ public class Database {
 	}
 
     /**
+     * Gets data on an entry by date and login id
+     * @param entryDate Date of the entry requested
+     * @param loginId ID of the login who created the requested entry
+     * @return Returns a ResultSet of entry data, or no data
+     */
+    public ResultSet getEntriesByDateAndLoginId(Date entryDate, Integer loginId) {
+        String query = "SELECT entry_id, entry_date, entry_text, login_id "+
+                       " FROM entries "+
+                       " WHERE entry_date = ? AND login_id = ?";
+        java.sql.Date entrySqlDate = new java.sql.Date(entryDate.getTime());
+        ResultSet results = null;
+        try {
+            PreparedStatement statement = this.mConn.prepareStatement(query);
+            statement.setDate(1,entrySqlDate);
+            statement.setInt(2, loginId);
+            results = statement.executeQuery();
+        } catch (SQLException e) {
+            System.out.println("DB ERROR: Get entries by date and login id failed.");
+        }
+        return results;
+    }
+
+    /**
      * Gets data on an entry by entry id and login id
      * @param entryId ID of the entry which is being requested
      * @param loginId ID of the login who created the desired entry
@@ -102,7 +125,7 @@ public class Database {
 			statement.setInt(2,loginId);
 			results = statement.executeQuery();
 		} catch (SQLException e) {
-			System.out.println("DB ERROR: Get entries by id and login failed.");
+			System.out.println("DB ERROR: Get entries by id and login id failed.");
 		}
 		return results;
 	}
