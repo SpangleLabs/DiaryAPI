@@ -44,6 +44,31 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
+
+	/**
+	 * Adds a new diary entry to the database, returning ID of new entry.
+	 * @param loginId ID of login creating this entry
+	 * @param entryDate Date of entry
+	 * @param entryText Text of the entry
+	 * @return ResultSet containing ID of new entry, or null.
+	 */
+	public ResultSet addEntry(Integer loginId, Date entryDate, String entryText) {
+		String query = "INSERT INTO entries (entry_date,entry_text,login_id) "+
+					   " VALUES (?,?,?) RETURNING entry_id ";
+		ResultSet results = null;
+		java.sql.Date entrySqlDate = new java.sql.Date(entryDate.getTime());
+		try {
+			PreparedStatement statement = this.mConn.prepareStatement(query);
+			statement.setDate(1,entrySqlDate);
+			statement.setString(2,entryText);
+			statement.setInt(3,loginId);
+			results = statement.executeQuery();
+		} catch (SQLException e) {
+			System.out.println("DB ERROR: Add entry failed.");
+			e.printStackTrace();
+		}
+		return results;
+	}
 	
 	/**
 	 * Adds a new session token to the database.
