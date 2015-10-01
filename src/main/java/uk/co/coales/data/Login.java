@@ -205,8 +205,18 @@ public class Login {
 	 * @return DiaryEntry with ID equal to user input
 	 */
 	public DiaryEntry getDiaryEntryById(Integer diaryEntryId) {
-		//TODO: implement this
-		return null;
+		DiaryEntry output = null;
+		//Get database results
+		ResultSet results = this.mDB.getEntriesByIdAndLoginId(diaryEntryId,this.getLoginId());
+		//Create object
+		try {
+			if(results.next()) {
+                output = new DiaryEntry(this.mDB,results,this);
+            }
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return output;
 	}
 	
 	/**
