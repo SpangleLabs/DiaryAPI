@@ -218,6 +218,26 @@ public class Login {
 		}
 		return output;
 	}
+
+    /**
+     * Gets a diary entry for specified date and current login
+     * @param diaryEntryDate Date of diary entry which user is requesting
+     * @return DiaryEntry with date equal to user input
+     */
+    public DiaryEntry getDiaryEntryByDate(Date diaryEntryDate) {
+        DiaryEntry output = null;
+        //Get database results
+        ResultSet results = this.mDB.getEntriesByDateAndLoginId(diaryEntryDate,this.getLoginId());
+        //Create object
+        try {
+            if(results.next()) {
+                output = new DiaryEntry(this.mDB,results,this);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return output;
+    }
 	
 	/**
 	 * Add a new diary entry
