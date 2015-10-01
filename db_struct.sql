@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.1.18
 -- Dumped by pg_dump version 9.1.18
--- Started on 2015-09-28 21:52:39
+-- Started on 2015-10-01 22:45:44
 
 SET statement_timeout = 0;
 SET client_encoding = 'UTF8';
@@ -21,7 +21,7 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 1888 (class 0 OID 0)
+-- TOC entry 1890 (class 0 OID 0)
 -- Dependencies: 167
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
@@ -53,7 +53,7 @@ ALTER TABLE public.entries OWNER TO postgres;
 
 --
 -- TOC entry 161 (class 1259 OID 16394)
--- Dependencies: 162 5
+-- Dependencies: 5 162
 -- Name: entries_entry_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -68,7 +68,7 @@ CREATE SEQUENCE entries_entry_id_seq
 ALTER TABLE public.entries_entry_id_seq OWNER TO postgres;
 
 --
--- TOC entry 1889 (class 0 OID 0)
+-- TOC entry 1891 (class 0 OID 0)
 -- Dependencies: 161
 -- Name: entries_entry_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -97,7 +97,7 @@ ALTER TABLE public.logins OWNER TO postgres;
 
 --
 -- TOC entry 163 (class 1259 OID 16405)
--- Dependencies: 5 164
+-- Dependencies: 164 5
 -- Name: logins_login_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -112,7 +112,7 @@ CREATE SEQUENCE logins_login_id_seq
 ALTER TABLE public.logins_login_id_seq OWNER TO postgres;
 
 --
--- TOC entry 1890 (class 0 OID 0)
+-- TOC entry 1892 (class 0 OID 0)
 -- Dependencies: 163
 -- Name: logins_login_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -155,7 +155,7 @@ CREATE SEQUENCE session_tokens_session_token_id_seq
 ALTER TABLE public.session_tokens_session_token_id_seq OWNER TO postgres;
 
 --
--- TOC entry 1891 (class 0 OID 0)
+-- TOC entry 1893 (class 0 OID 0)
 -- Dependencies: 165
 -- Name: session_tokens_session_token_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -183,7 +183,7 @@ ALTER TABLE ONLY logins ALTER COLUMN login_id SET DEFAULT nextval('logins_login_
 
 --
 -- TOC entry 1764 (class 2604 OID 16423)
--- Dependencies: 165 166 166
+-- Dependencies: 166 165 166
 -- Name: session_token_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -191,8 +191,18 @@ ALTER TABLE ONLY session_tokens ALTER COLUMN session_token_id SET DEFAULT nextva
 
 
 --
--- TOC entry 1768 (class 2606 OID 16404)
--- Dependencies: 162 162 1882
+-- TOC entry 1768 (class 2606 OID 24593)
+-- Dependencies: 162 162 162 1884
+-- Name: entries_entry_date_login_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY entries
+    ADD CONSTRAINT entries_entry_date_login_id_key UNIQUE (entry_date, login_id);
+
+
+--
+-- TOC entry 1770 (class 2606 OID 16404)
+-- Dependencies: 162 162 1884
 -- Name: entries_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -201,8 +211,8 @@ ALTER TABLE ONLY entries
 
 
 --
--- TOC entry 1771 (class 2606 OID 16415)
--- Dependencies: 164 164 1882
+-- TOC entry 1773 (class 2606 OID 16415)
+-- Dependencies: 164 164 1884
 -- Name: logins_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -211,8 +221,8 @@ ALTER TABLE ONLY logins
 
 
 --
--- TOC entry 1773 (class 2606 OID 16417)
--- Dependencies: 164 164 1882
+-- TOC entry 1775 (class 2606 OID 16417)
+-- Dependencies: 164 164 1884
 -- Name: logins_username_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -221,8 +231,8 @@ ALTER TABLE ONLY logins
 
 
 --
--- TOC entry 1775 (class 2606 OID 16428)
--- Dependencies: 166 166 1882
+-- TOC entry 1777 (class 2606 OID 16428)
+-- Dependencies: 166 166 1884
 -- Name: session_tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -231,8 +241,8 @@ ALTER TABLE ONLY session_tokens
 
 
 --
--- TOC entry 1777 (class 2606 OID 16477)
--- Dependencies: 166 166 1882
+-- TOC entry 1779 (class 2606 OID 16477)
+-- Dependencies: 166 166 1884
 -- Name: session_tokens_token_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -241,8 +251,8 @@ ALTER TABLE ONLY session_tokens
 
 
 --
--- TOC entry 1769 (class 1259 OID 16456)
--- Dependencies: 162 1882
+-- TOC entry 1771 (class 1259 OID 16456)
+-- Dependencies: 162 1884
 -- Name: fki_entries_login_id_fkey; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -250,8 +260,8 @@ CREATE INDEX fki_entries_login_id_fkey ON entries USING btree (login_id);
 
 
 --
--- TOC entry 1778 (class 2606 OID 16451)
--- Dependencies: 1770 164 162 1882
+-- TOC entry 1780 (class 2606 OID 16451)
+-- Dependencies: 1772 162 164 1884
 -- Name: entries_login_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -260,8 +270,8 @@ ALTER TABLE ONLY entries
 
 
 --
--- TOC entry 1779 (class 2606 OID 16431)
--- Dependencies: 1770 164 166 1882
+-- TOC entry 1781 (class 2606 OID 16431)
+-- Dependencies: 164 166 1772 1884
 -- Name: session_tokens_login_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -270,7 +280,7 @@ ALTER TABLE ONLY session_tokens
 
 
 --
--- TOC entry 1887 (class 0 OID 0)
+-- TOC entry 1889 (class 0 OID 0)
 -- Dependencies: 5
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
 --
@@ -281,7 +291,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2015-09-28 21:52:39
+-- Completed on 2015-10-01 22:45:45
 
 --
 -- PostgreSQL database dump complete
