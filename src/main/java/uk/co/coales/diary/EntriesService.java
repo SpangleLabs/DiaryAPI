@@ -202,4 +202,41 @@ public class EntriesService {
             return null;
         }
 	}
+
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{entry_id}")
+    public Response editEntry(JSONObject entryRequest, @PathParam("entry_id") Integer entryId) {
+        //Check auth token and get current login
+        String authToken = this.request.getHeader("Authentication");
+        String ipAddr = this.request.getRemoteAddr();
+        if(authToken == null) {
+            return Response.status(401).entity("ACCESS DENIED").build();
+        }
+        Database db = new Database();
+        Login newLogin = Login.fromSessionToken(db,authToken,ipAddr);
+        if(newLogin == null) {
+            return Response.status(401).entity("ACCESS DENIED").build();
+        }
+        //Get entry text and date
+        String entryDate;
+        String entryText;
+        try {
+            entryDate = entryRequest.getString("date");
+            entryText = entryRequest.getString("text");
+        } catch (JSONException e) {
+            System.out.println("ERROR: Failed to read JSON object.");
+            e.printStackTrace();
+            return Response.status(500).entity("FAILED TO READ JSON").build();
+        }
+        //Check date and text are set
+        if(entryText == null) {
+            return Response.status(400).entity("INVALID DATA FOR ENTRY.").build();
+        }
+        //Get current entry
+        DiaryEntry oldEntry = newLogin.getDiaryEntryById(entryId);
+        //Check that date is not different from current date
+        //Update entry
+    }
 }
