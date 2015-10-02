@@ -128,7 +128,7 @@ public class EntriesService {
 
 	@POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response newEntry(JSONObject newEntry) {
+    public Response newEntry(JSONObject entryRequest) {
         //Check auth token and get current login
         String authToken = this.request.getHeader("Authentication");
         String ipAddr = this.request.getRemoteAddr();
@@ -140,8 +140,41 @@ public class EntriesService {
         if(newLogin == null) {
             return Response.status(401).entity("ACCESS DENIED").build();
         }
+		//Get entry text and date
+		String entryDate;
+		String entryText;
+		try {
+			entryDate = entryRequest.getString("date");
+			entryText = entryRequest.getString("text");
+		} catch (JSONException e) {
+			System.out.println("ERROR: Failed to read JSON object.");
+			e.printStackTrace();
+			return Response.status(500).entity("FAILED TO READ JSON").build();
+		}
+		//Check date and text are set
+		if(entryDate == null || entryText == null) {
+			return Response.status(400).entity("INVALID DATA FOR ENTRY.").build();
+		}
         //Check for entry with current date
-        Date date = new Date();
-        return null;
+        Date newDate = this.dateFromString(entryDate);
+		if(newDate == null) {
+			return Response.status(400).entity("INVALID DATE FORMAT.").build();
+		}
+		//Attempt to add entry for this date
+		DiaryEntry newEntry = newLogin.addDiaryEntry(newDate,entryText);
+		if(newEntry == null) {
+			return Response.status(409).entity("ENTRY ALREADY EXISTS WITH THIS DATE.").build();
+		}
+		Integer entryId = newEntry.getEntryId();
+        return Response.status(201).header("Location","/entries/"+entryId.toString()).build();
     }
+
+	/**
+	 * Converts a user inputted ISO8601 date into a Date object
+	 * @param inputDate String specifying ISO8601 date
+	 * @return Date of the new entry
+	 */
+	private Date dateFromString(String inputDate) {
+		return null;
+	}
 }
