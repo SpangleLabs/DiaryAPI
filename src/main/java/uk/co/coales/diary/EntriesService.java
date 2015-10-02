@@ -175,6 +175,31 @@ public class EntriesService {
 	 * @return Date of the new entry
 	 */
 	private Date dateFromString(String inputDate) {
-		return null;
+        //Check input is the right length
+        if(inputDate.length() != 10) {
+            return null;
+        }
+        //Check that 5th and 7th characters are hyphens
+        if(!Character.toString(inputDate.charAt(4)).equals("-")) {
+            return null;
+        }
+        if(!Character.toString(inputDate.charAt(6)).equals("-")) {
+            return null;
+        }
+        //Get year, month and day as integers
+        try {
+            Integer inputYear = Integer.parseInt(inputDate.substring(0, 4));
+            Integer inputMonth = Integer.parseInt(inputDate.substring(5, 7));
+            Integer inputDay = Integer.parseInt(inputDate.substring(8));
+            Calendar cal = Calendar.getInstance();
+            cal.setLenient(false);
+            cal.clear();
+            cal.set(Calendar.YEAR,inputYear);
+            cal.set(Calendar.MONTH,inputMonth-1);
+            cal.set(Calendar.DAY_OF_MONTH,inputDay);
+            return cal.getTime();
+        } catch (Exception e) {
+            return null;
+        }
 	}
 }
