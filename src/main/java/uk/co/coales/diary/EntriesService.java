@@ -241,5 +241,16 @@ public class EntriesService {
             return Response.status(400).entity("CANNOT CHANGE DATE OF ENTRY.").build();
         }
         //Update entry
+        oldEntry.setText(entryText);
+        //Return entry
+        JSONObject outputJson;
+        try {
+            outputJson = oldEntry.toJson();
+        } catch (JSONException e) {
+            System.out.println("ERROR: diary entry failed to construct JSON object.");
+            e.printStackTrace();
+            return Response.status(500).entity("FAILED TO CONSTRUCT JSON").build();
+        }
+        return Response.status(200).entity(outputJson).build();
     }
 }
