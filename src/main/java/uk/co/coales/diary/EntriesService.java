@@ -238,7 +238,7 @@ public class EntriesService {
         DiaryEntry oldEntry = newLogin.getDiaryEntryById(entryId);
         //Check that date is not different from current date
         if(this.dateFromString(entryDate) != null && this.dateFromString(entryDate) != oldEntry.getDate()) {
-            return Response.status(400).entity("CANNOT CHANGE DATE WITH PUT.").build();
+            return Response.status(400).entity("CANNOT CHANGE DATE OF ENTRY.").build();
         }
         //Update entry
     }
