@@ -63,6 +63,17 @@ public class DiaryEntry {
 	public String getText() {
 		return this.mText;
 	}
+
+    /**
+     * Updates the entry text in the database
+     * @param newText new entry text
+     */
+	public void setText(String newText) {
+        //Update database
+        this.mDB.updateEntryEntryText(this.getEntryId(),newText);
+        //Update variable
+        this.mText = newText;
+    }
 	
 	/**
 	 * Output JSON object for this diary entry
