@@ -223,6 +223,26 @@ public class Database {
 		}
 		return results;
 	}
+
+    /**
+     * Updates the text of a diary entry
+     * @param entryId ID of the entry to update
+     * @param newText new entry text
+     */
+	public void updateEntryEntryText(Integer entryId, String newText) {
+        String query = "UPDATE entries "+
+                       " SET entry_text = ? "+
+                       " WHERE entry_id = ?";
+        try {
+            PreparedStatement statement = this.mConn.prepareStatement(query);
+            statement.setString(1,newText);
+            statement.setInt(2,entryId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("DB ERROR: Update entry text failed.");
+            e.printStackTrace();
+        }
+    }
 	
 	/**
 	 * Adds 1 to the failed login count for an account, then locks out any accounts with too many failed logins.
