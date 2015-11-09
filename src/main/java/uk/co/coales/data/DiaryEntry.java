@@ -1,90 +1,66 @@
 package uk.co.coales.data;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Calendar;
 import java.util.Date;
 
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
-
-import uk.co.coales.utils.Database;
-
 public class DiaryEntry {
-	private Database mDB = null;
 	private Integer mEntryId = null;
 	private Login mLogin = null;
 	private Date mDate = null;
 	private String mText = null;
 	
-	DiaryEntry(Database db, ResultSet entryResult, Login login) throws SQLException {
-		if(entryResult == null) {
-			throw new NullPointerException();
-		}
-		this.mDB = db;
-		this.mLogin = login;
-		this.mEntryId = entryResult.getInt("entry_id");
-		this.mDate = entryResult.getDate("entry_date");
-		this.mText = entryResult.getString("entry_text");
+	/**
+	 * @return the mEntryId
+	 */
+	public Integer getmEntryId() {
+		return mEntryId;
 	}
 	
 	/**
-	 * Entry ID getter
-	 * @return ID of diary entry
+	 * @param mEntryId the mEntryId to set
 	 */
-	public Integer getEntryId() {
-		return this.mEntryId;
-	}
-
-	/**
-	 * Date getter
-	 * @return Date diary entry was filed for
-	 */
-	public Date getDate() {
-		return this.mDate;
+	public void setmEntryId(Integer mEntryId) {
+		this.mEntryId = mEntryId;
 	}
 	
 	/**
-	 * Returns the date in ISO8601 format.
-	 * @return String representing the date the diary entry was filed for, in ISO8601 format
+	 * @return the mLogin
 	 */
-	public String getDateString() {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(this.getDate());
-		int year = cal.get(Calendar.YEAR);
-		int month = cal.get(Calendar.MONTH);
-		int day = cal.get(Calendar.DAY_OF_MONTH);
-		return Integer.toString(year)+"-"+Integer.toString(month)+"-"+Integer.toString(day);
+	public Login getmLogin() {
+		return mLogin;
 	}
 	
 	/**
-	 * Entry text getter
+	 * @param mLogin the mLogin to set
 	 */
-	public String getText() {
-		return this.mText;
+	public void setmLogin(Login mLogin) {
+		this.mLogin = mLogin;
 	}
-
-    /**
-     * Updates the entry text in the database
-     * @param newText new entry text
-     */
-	public void setText(String newText) {
-        //Update database
-        this.mDB.updateEntryEntryText(this.getEntryId(),newText);
-        //Update variable
-        this.mText = newText;
-    }
 	
 	/**
-	 * Output JSON object for this diary entry
-	 * @return JSONObject which represents this diary entry
-	 * @throws JSONException
+	 * @return the mDate
 	 */
-	public JSONObject toJson() throws JSONException {
-		JSONObject jsonOutput = new JSONObject();
-		jsonOutput.put("id",this.getEntryId());
-		jsonOutput.put("date",this.getDateString());
-		jsonOutput.put("text",this.getText());
-		return jsonOutput;
+	public Date getmDate() {
+		return mDate;
+	}
+	
+	/**
+	 * @param mDate the mDate to set
+	 */
+	public void setmDate(Date mDate) {
+		this.mDate = mDate;
+	}
+	
+	/**
+	 * @return the mText
+	 */
+	public String getmText() {
+		return mText;
+	}
+	
+	/**
+	 * @param mText the mText to set
+	 */
+	public void setmText(String mText) {
+		this.mText = mText;
 	}
 }

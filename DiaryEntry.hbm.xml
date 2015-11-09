@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+
+<hibernate-mapping>
+   <class name="DiaryEntry" table="entries">
+      <meta attribute="class-description">
+         This class contains the entry detail. 
+      </meta>
+      <id name="mEntryId" type="int" column="entry_id">
+         <generator class="native"/>
+      </id>
+      <property name="mDate" column="entry_date" type="date"/>
+      <property name="mText" column="entry_text" type="string"/>
+      <property name="mLoginId" column="login_id" type="int"/>
+   </class>
+</hibernate-mapping>
