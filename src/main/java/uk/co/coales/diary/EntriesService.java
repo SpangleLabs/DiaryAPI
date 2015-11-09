@@ -253,4 +253,49 @@ public class EntriesService {
         }
         return Response.status(200).entity(outputJson).build();
     }
+
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{entryYear}-{entryMonth}-{entryDay}")
+    public Response editEntry(@PathParam("entryYear") Integer entryYear, @PathParam("entryMonth") Integer entryMonth, @PathParam("entryDay") Integer entryDay) {
+        //Check auth token and get current login
+        String authToken = this.request.getHeader("Authentication");
+        String ipAddr = this.request.getRemoteAddr();
+        if(authToken == null) {
+            return Response.status(401).entity("ACCESS DENIED").build();
+        }
+        Database db = new Database();
+        Login newLogin = Login.fromSessionToken(db,authToken,ipAddr);
+        if(newLogin == null) {
+            return Response.status(401).entity("ACCESS DENIED").build();
+        }
+        //Attempt to create Date
+        Calendar cal = Calendar.getInstance();
+        cal.setLenient(false);
+        cal.clear();
+        try {
+            cal.set(Calendar.YEAR,entryYear);
+            cal.set(Calendar.MONTH,entryMonth-1);
+            cal.set(Calendar.DAY_OF_MONTH,entryDay);
+        } catch (Exception e) {
+            return Response.status(400).entity("INVALID DATE").build();
+        }
+        Date date = cal.getTime();
+        //Get specified diary entry
+        DiaryEntry diaryEntry = newLogin.getDiaryEntryByDate(date);
+        if(diaryEntry == null) {
+            return Response.status(404).entity("ENTRY NOT FOUND").build();
+        }
+        //Return specified diary entry
+        JSONObject outputJson;
+        try {
+            outputJson = diaryEntry.toJson();
+        } catch (JSONException e) {
+            System.out.println("ERROR: diary entry failed to construct JSON object.");
+            e.printStackTrace();
+            return Response.status(500).entity("FAILED TO CONSTRUCT JSON").build();
+        }
+        return Response.status(200).entity(outputJson).build();
+    }
 }
