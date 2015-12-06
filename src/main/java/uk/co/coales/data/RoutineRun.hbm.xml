@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 06-Dec-2015 19:35:43 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="uk.co.coales.data.RoutineRun" table="routine_run" schema="public">
+        <id name="routineRunId" type="int">
+            <column name="routine_run_id" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="routine" class="uk.co.coales.data.Routine" fetch="select">
+            <column name="routine_id" not-null="true" />
+        </many-to-one>
+        <property name="timeStarted" type="timestamp">
+            <column name="time_started" length="35" not-null="true" />
+        </property>
+        <property name="duration" type="serializable">
+            <column name="duration" />
+        </property>
+        <set name="routineItemStatuses" table="routine_item_status" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="routine_run_id" not-null="true" />
+            </key>
+            <one-to-many class="uk.co.coales.data.RoutineItemStatus" />
+        </set>
+    </class>
+</hibernate-mapping>

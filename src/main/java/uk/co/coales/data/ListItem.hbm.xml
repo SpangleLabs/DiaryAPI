@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 06-Dec-2015 19:35:43 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="uk.co.coales.data.ListItem" table="list_item" schema="public">
+        <id name="listItemId" type="int">
+            <column name="list_item_id" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="list" class="uk.co.coales.data.List" fetch="select">
+            <column name="list_id" not-null="true" />
+        </many-to-one>
+        <property name="name" type="string">
+            <column name="name" not-null="true" />
+        </property>
+        <property name="description" type="string">
+            <column name="description" not-null="true" />
+        </property>
+        <property name="dateAdded" type="timestamp">
+            <column name="date_added" length="35" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

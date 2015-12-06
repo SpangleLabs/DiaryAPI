@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 06-Dec-2015 19:35:43 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="uk.co.coales.data.SessionToken" table="session_token" schema="public">
+        <id name="sessionTokenId" type="int">
+            <column name="session_token_id" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="account" class="uk.co.coales.data.Account" fetch="select">
+            <column name="account_id" not-null="true" />
+        </many-to-one>
+        <property name="token" type="string">
+            <column name="token" length="64" not-null="true" unique="true" />
+        </property>
+        <property name="ipAddr" type="serializable">
+            <column name="ip_addr" not-null="true" />
+        </property>
+        <property name="timeCreated" type="timestamp">
+            <column name="time_created" length="35" not-null="true" />
+        </property>
+        <property name="timeUsed" type="timestamp">
+            <column name="time_used" length="35" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

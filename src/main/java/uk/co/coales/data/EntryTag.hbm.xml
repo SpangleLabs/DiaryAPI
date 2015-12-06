@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 06-Dec-2015 19:35:43 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="uk.co.coales.data.EntryTag" table="entry_tag" schema="public">
+        <id name="entryTagId" type="int">
+            <column name="entry_tag_id" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="entry" class="uk.co.coales.data.Entry" fetch="select">
+            <column name="entry_id" not-null="true" />
+        </many-to-one>
+        <property name="tag" type="string">
+            <column name="tag" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

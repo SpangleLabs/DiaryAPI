@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 06-Dec-2015 19:35:43 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="uk.co.coales.data.Account" table="account" schema="public">
+        <id name="accountId" type="int">
+            <column name="account_id" />
+            <generator class="assigned" />
+        </id>
+        <property name="username" type="string">
+            <column name="username" not-null="true" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" not-null="true" />
+        </property>
+        <property name="passHash" type="boolean">
+            <column name="pass_hash" not-null="true" />
+        </property>
+        <property name="passSalt" type="boolean">
+            <column name="pass_salt" not-null="true" />
+        </property>
+        <property name="failedLogins" type="int">
+            <column name="failed_logins" not-null="true" />
+        </property>
+        <property name="lockoutTime" type="timestamp">
+            <column name="lockout_time" length="35" />
+        </property>
+        <set name="noteCategories" table="note_category" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="account_id" not-null="true" />
+            </key>
+            <one-to-many class="uk.co.coales.data.NoteCategory" />
+        </set>
+        <set name="routines" table="routine" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="account_id" not-null="true" />
+            </key>
+            <one-to-many class="uk.co.coales.data.Routine" />
+        </set>
+        <set name="lists" table="list" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="account_id" not-null="true" />
+            </key>
+            <one-to-many class="uk.co.coales.data.List" />
+        </set>
+        <set name="entries" table="entry" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="account_id" not-null="true" />
+            </key>
+            <one-to-many class="uk.co.coales.data.Entry" />
+        </set>
+        <set name="notes" table="note" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="account_id" not-null="true" />
+            </key>
+            <one-to-many class="uk.co.coales.data.Note" />
+        </set>
+        <set name="sessionTokens" table="session_token" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="account_id" not-null="true" />
+            </key>
+            <one-to-many class="uk.co.coales.data.SessionToken" />
+        </set>
+    </class>
+</hibernate-mapping>

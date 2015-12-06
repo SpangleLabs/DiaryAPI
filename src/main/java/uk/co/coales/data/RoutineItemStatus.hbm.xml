@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 06-Dec-2015 19:35:43 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="uk.co.coales.data.RoutineItemStatus" table="routine_item_status" schema="public">
+        <composite-id name="id" class="uk.co.coales.data.RoutineItemStatusId">
+            <key-property name="routineRunId" type="int">
+                <column name="routine_run_id" />
+            </key-property>
+            <key-property name="routineItemId" type="int">
+                <column name="routine_item_id" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="routineItem" class="uk.co.coales.data.RoutineItem" update="false" insert="false" fetch="select">
+            <column name="routine_item_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="routineRun" class="uk.co.coales.data.RoutineRun" update="false" insert="false" fetch="select">
+            <column name="routine_run_id" not-null="true" />
+        </many-to-one>
+        <property name="timeStarted" type="timestamp">
+            <column name="time_started" length="35" />
+        </property>
+        <property name="duration" type="serializable">
+            <column name="duration" />
+        </property>
+        <property name="notes" type="string">
+            <column name="notes" />
+        </property>
+    </class>
+</hibernate-mapping>
