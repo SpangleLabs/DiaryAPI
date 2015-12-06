@@ -3,3 +3,7 @@
 .project
 .classpath
 .settings/
+.idea/
+DiaryAPI.iml
+src/main/resources/config.yml
+src/main/resources/hibernate.cfg.xml
