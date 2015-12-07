@@ -12,7 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
-import uk.co.coales.data.Login;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
 import uk.co.coales.utils.Database;
 
 @Path("/login")
@@ -27,6 +31,11 @@ public class LoginService {
 	@Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
 	public Response loginToken(JSONObject loginRequest, @Context HttpServletRequest request) {
+		
+        SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+        Session session = sessionFactory.getCurrentSession();
+		session = sessionFactory.getCurrentSession();
+		
 		String username;
 		String password;
 		try {
